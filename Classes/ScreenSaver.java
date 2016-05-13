@@ -20,10 +20,10 @@ import javafx.util.Duration;
 
 public class ScreenSaver extends Pane {
 	private int x = y = 0, y, xI = yI = 1, yI, xLim[] = {1900, 1900}, yLim[] = {999, 999},  coords[][] = new int[xLim[0]+1][yLim[0]+1];
-	private Color[] colors = {new Color(0.0f,0.0f,0.0f,1.0f),
-			new Color(0.0f,0.0f,1.0f,1.0f),
+	private Color[] colors = {new Color(0.0f,0.0f,1.0f,1.0f),
 			new Color(0.0f,0.5f,0.5f,1.0f),
 			new Color(0.0f,1.0f,0.0f,1.0f),
+			new Color(0.0f,0.0f,0.0f,1.0f),
 			new Color(0.5f,0.5f,1.0f,1.0f),
 			new Color(0.55f,0.33f,0.1f,1.0f),
 			new Color(0.9f,0.45f,0.9f,1.0f),
@@ -80,7 +80,7 @@ public class ScreenSaver extends Pane {
 	private void drawScreen() {
 		for(int i = 0; i <= xLim[0]; i++) {
 			for(int k = 0; k <= yLim[0]; k++) {
-				g.setColor(i, k, colors[coords[i][k]]);
+				g.setColor(i, k, colors[coords[i][k]%colors.length]);
 			}
 		}
 	}
@@ -159,17 +159,18 @@ public class ScreenSaver extends Pane {
 		return value;
 	    }
 	
-	public void reset() {
+	public void reset(int width, int height) {
 		x = 0;
 		y = 0;
 		xI = 1;
 		yI = 1;
-		int width = xLim[0];
-		int height = yLim[0];
+		xLim[0] = xLim[1] = width;
+		yLim[0] = yLim[1] = height;
 		Arrays.fill(xLim, width);
 		Arrays.fill(yLim, height);
 		coords = new int[xLim[0]+1][yLim[0]+1];
-		drawScreen();
+		if(g != null)
+			drawScreen();
 	}
 	
 	public void save() {
@@ -195,11 +196,7 @@ public class ScreenSaver extends Pane {
 	}
 
 	public void setMinSize(int width, int height) {
-		x = y = 0;
-		xI = yI = 1;
-		Arrays.fill(xLim, width);
-		Arrays.fill(yLim, height);
-		coords = new int[xLim[1]+1][yLim[1]+1];
+		reset(width, height);
 		super.setMinSize(xLim[1], yLim[1]);
 		super.setWidth(width);
 		super.setHeight(height);

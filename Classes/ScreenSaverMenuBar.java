@@ -91,7 +91,7 @@ public class ScreenSaverMenuBar extends MenuBar {
 		nextFrame.setAccelerator(new KeyCodeCombination(KeyCode.L, KeyCombination.CONTROL_DOWN));
 		
 		MenuItem reset = new MenuItem("Reset");
-		reset.setOnAction(e -> screenSaver.reset());
+		reset.setOnAction(e -> screenSaver.reset((int) (window.getWidth()), (int) (window.getHeight())));
 		reset.setAccelerator(new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_DOWN));
 		
 		MenuItem fullScreen = new MenuItem("Fullscreen");

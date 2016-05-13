@@ -7,13 +7,13 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Main extends Application{
-	Stage window;
-	ScreenSaver screenSaver = new ScreenSaver(1920, 1079, new Color(1f, .5f, 0f, 1f));
-	ScreenSaverMenuBar menuBar;
-	
 	public static void main(String[] args) {
 		launch(args);
 	}
+	Stage window;
+	ScreenSaver screenSaver = new ScreenSaver(1366, 707, new Color(1f, .5f, 0f, 1f));
+	
+	ScreenSaverMenuBar menuBar;
 	
 	private void closeProgram(Stage mainStage) {
 		Boolean answer = false;
@@ -36,7 +36,7 @@ public class Main extends Application{
 		layout.setCenter(screenSaver);
 		return layout;
 	}
-
+	
 	private Stage createWindow(Stage mainStage) {
 		mainStage.setTitle("Screen Saver");
 		mainStage.setOnCloseRequest(e -> {
@@ -46,8 +46,6 @@ public class Main extends Application{
 		return mainStage;
 	}
 
-	
-
 	@Override
 	public void start(Stage mainStage) throws Exception {
 		window = createWindow(mainStage);
@@ -56,7 +54,6 @@ public class Main extends Application{
 		Scene scene = new Scene(layout, screenSaver.getWidth()-2, screenSaver.getHeight()-100);
 		window.setScene(scene);
 		window.show();
-		screenSaver.toggleAnimation();
-		
+		window.fullScreenProperty().addListener(e -> menuBar.setVisible(!window.isFullScreen()));
 	}
 }
